@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_app/bloc/connectivity/connectivity_cubit.dart';
@@ -23,6 +24,7 @@ import 'bloc/auth/authentication_cubit.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  MobileAds.instance.initialize();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

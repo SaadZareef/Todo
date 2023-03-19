@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Heey !',
+                          'Hey !',
                           style:
                               Theme.of(context).textTheme.headline1?.copyWith(
                                     fontSize: 20.sp,

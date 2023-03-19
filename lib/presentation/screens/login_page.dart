@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_app/bloc/auth/authentication_cubit.dart';
 import 'package:todo_app/bloc/connectivity/connectivity_cubit.dart';
@@ -12,6 +13,8 @@ import 'package:todo_app/shared/constants/assets_path.dart';
 import 'package:todo_app/shared/constants/strings.dart';
 import 'package:todo_app/shared/styles/colors.dart';
 import 'package:todo_app/shared/validators.dart';
+
+import '../../shared/services/ad_mob_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,6 +33,39 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _emailcontroller = TextEditingController();
     _passwordcontroller = TextEditingController();
+    _createInterstitiaalAd();
+  }
+
+  InterstitialAd? _interstitialAd;
+  void _createInterstitiaalAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            _interstitialAd = ad;
+          },
+          onAdFailedToLoad: (error) {
+            _interstitialAd = null;
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _createInterstitiaalAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          _createInterstitiaalAd();
+        },
+      );
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
   }
 
   @override
@@ -267,6 +303,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
+                        ElevatedButton(
+                            onPressed: _showInterstitialAd,
+                            child: Text("Interstitial Ad"))
                       ],
                     ),
                   ),

@@ -60,7 +60,7 @@ class WelcomePage extends StatelessWidget {
                       height: 2.h,
                     ),
                     Text(
-                      'Welcome to the best Task manager baby !',
+                      'Welcome to the best Task manager app !',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.subtitle1?.copyWith(
                             letterSpacing: 3,
